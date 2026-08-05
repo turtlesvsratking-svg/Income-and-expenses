@@ -1,0 +1,233 @@
+:root {
+    --primary: #2C7A7B;       /* ディープミントグリーン */
+    --primary-light: #E6FFFA; /* 薄いミント */
+    --accent: #D69E2E;        /* ゴールド */
+    --text: #2D3748;          /* 濃いグレー */
+    --bg: #F7FAFC;            /* 背景 */
+    --card-bg: #FFFFFF;
+    --expense-color: #E53E3E; /* 赤 */
+    --income-color: #319795;  /* 緑 */
+    --border: #E2E8F0;
+    --radius: 8px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding-bottom: 40px;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.header {
+    background-color: var(--primary);
+    color: white;
+    padding: 24px 0;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.header h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.subtitle {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+/* カード共通スタイル */
+.card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 24px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    border: 1px solid var(--border);
+}
+
+.card h2 {
+    font-size: 1.2rem;
+    margin-bottom: 16px;
+    color: var(--primary);
+    border-bottom: 2px solid var(--primary-light);
+    padding-bottom: 8px;
+}
+
+/* サマリーカード */
+.summary-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.summary-card {
+    text-align: center;
+    margin-bottom: 0;
+}
+
+.summary-card h3 {
+    font-size: 0.9rem;
+    color: #718096;
+    margin-bottom: 8px;
+}
+
+.summary-card p {
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+.summary-card.balance p { color: var(--text); }
+.summary-card.income p { color: var(--income-color); }
+.summary-card.expense p { color: var(--expense-color); }
+
+/* カテゴリーグリッド */
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 12px;
+}
+
+.category-item {
+    background: var(--bg);
+    padding: 12px;
+    border-radius: 6px;
+    border-left: 4px solid var(--primary);
+}
+
+.category-item .name {
+    font-size: 0.85rem;
+    color: #4A5568;
+}
+
+.category-item .amount {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--text);
+}
+
+/* グリッド配置 */
+.grid-2col {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+@media (min-width: 768px) {
+    .grid-2col {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* フォーム */
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.radio-group {
+    display: flex;
+    gap: 20px;
+}
+
+input[type="number"],
+input[type="text"],
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+/* ボタン */
+.btn {
+    display: inline-block;
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    transition: opacity 0.2s;
+}
+
+.btn:hover { opacity: 0.9; }
+.btn-primary { background: var(--primary); color: white; }
+.btn-secondary { background: #4A5568; color: white; }
+.btn-outline { background: white; color: #4A5568; border: 1px solid #4A5568; }
+
+.backup-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+.description {
+    font-size: 0.85rem;
+    color: #718096;
+}
+
+/* テーブル */
+.table-wrapper {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+}
+
+th {
+    background-color: var(--bg);
+    color: #4A5568;
+}
+
+.badge-income {
+    color: var(--income-color);
+    font-weight: bold;
+}
+
+.badge-expense {
+    color: var(--expense-color);
+    font-weight: bold;
+}
+
+.delete-btn {
+    background: #FED7D7;
+    color: #C53030;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+}
