@@ -4,6 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ブログ収支管理ツール | おしえてかめさん</title>
+    
+    <!-- ホーム画面追加時＆ブラウザタブのアイコン設定（manifest.json不要） -->
+    <link rel="apple-touch-icon" href="./images/IMG_4711.png">
+    <link rel="icon" type="image/png" href="./images/IMG_4711.png">
+    
+    <!-- iOSでのモバイル表示調整 -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="収支管理">
+
     <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
@@ -35,7 +45,7 @@
         <section class="card">
             <h2>📊 収入カテゴリー別内訳</h2>
             <div id="category-summary" class="category-grid">
-                <!-- JSで動的に更新されます -->
+                <!-- JSで動的に更新 -->
             </div>
         </section>
 
@@ -55,7 +65,6 @@
                     <div class="form-group">
                         <label for="category">カテゴリー</label>
                         <select id="category" required>
-                            <!-- 収入用カテゴリー -->
                             <option value="アドセンス">アドセンス</option>
                             <option value="A8.net">A8.net</option>
                             <option value="もしもアフィリエイト">もしもアフィリエイト</option>
@@ -81,7 +90,7 @@
             <!-- データ管理機能 -->
             <section class="card">
                 <h2>💾 データのバックアップ・復元</h2>
-                <p class="description">ブラウザに自動保存されますが、大切なデータは定期的にCSVダウンロードしてバックアップしてください。</p>
+                <p class="description">ブラウザに自動保存されます。端末変更や破損に備え、定期的にCSVダウンロードを行ってください。</p>
                 <div class="backup-actions">
                     <button id="export-btn" class="btn btn-secondary">CSVファイルを保存</button>
                     <label class="btn btn-outline">
