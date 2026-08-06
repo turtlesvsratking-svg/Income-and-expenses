@@ -1,13 +1,13 @@
 :root {
-    --primary: #0D9488;         /* 洗練されたミントティール */
+    --primary: #0D9488;         /* ミントティール */
     --primary-hover: #0F766E;
     --primary-light: #CCFBF1;
-    --bg-main: #F8FAFC;         /* 明るいスレート背景 */
+    --bg-main: #F8FAFC;
     --card-bg: #FFFFFF;
-    --text-main: #1E293B;       /* 視認性の良いダークスレート */
+    --text-main: #1E293B;
     --text-muted: #64748B;
-    --income-color: #059669;    /* 上質なエメラルドグリーン */
-    --expense-color: #E11D48;   /* エレガントなローズレッド */
+    --income-color: #059669;
+    --expense-color: #E11D48;
     --border-color: #E2E8F0;
     --radius-md: 12px;
     --radius-lg: 16px;
@@ -36,7 +36,6 @@ body {
     padding: 0 20px;
 }
 
-/* ヘッダー */
 .header {
     background: linear-gradient(135deg, #0D9488 0%, #115E59 100%);
     color: white;
@@ -76,7 +75,6 @@ body {
     font-weight: 400;
 }
 
-/* カードデザイン */
 .card {
     background: var(--card-bg);
     border-radius: var(--radius-lg);
@@ -106,7 +104,6 @@ body {
 .mb-large { margin-bottom: 28px; }
 .mt-large { margin-top: 28px; }
 
-/* 収支サマリー */
 .summary-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -138,7 +135,6 @@ body {
 .summary-card.income .card-value { color: var(--income-color); }
 .summary-card.expense .card-value { color: var(--expense-color); }
 
-/* カテゴリーグリッド */
 .category-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -171,7 +167,6 @@ body {
     color: var(--text-main);
 }
 
-/* レイアウト配置 */
 .content-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -184,7 +179,6 @@ body {
     }
 }
 
-/* フォーム UI */
 .form-group {
     margin-bottom: 18px;
 }
@@ -215,7 +209,6 @@ body {
     box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.15);
 }
 
-/* トグルスイッチ（区分選択） */
 .type-toggle {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -253,7 +246,6 @@ body {
     box-shadow: var(--shadow-sm);
 }
 
-/* ボタン UI */
 .btn {
     display: inline-flex;
     align-items: center;
@@ -294,7 +286,6 @@ body {
     gap: 12px;
 }
 
-/* テーブル UI */
 .table-wrapper {
     overflow-x: auto;
 }
