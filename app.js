@@ -1,7 +1,9 @@
-// リクエストに応じたカテゴリー定義
+// 新しいカテゴリー定義
 const INCOME_CATEGORIES = ['Googleアドセンス', 'アフィリエイト', 'Udemy', 'グッズ', 'その他'];
 const EXPENSE_CATEGORY = 'ブログ経費';
-const STORAGE_KEY = 'kamesan_blog_transactions_v2';
+
+// 最新版のLocalStorageキー（旧データとの混同を防ぐため名称変更）
+const STORAGE_KEY = 'kamesan_blog_transactions_v3';
 
 let transactions = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
 
@@ -191,7 +193,7 @@ document.getElementById('import-file').addEventListener('change', (e) => {
                 alert('データを正常に復元しました。');
             }
         } catch (err) {
-            alert('CSVファイルの読み込みに失敗しました。ファイル形式を確認してください。');
+            alert('CSVファイルの読み込みに失敗しました。');
         }
     };
     reader.readAsText(file);
