@@ -1,14 +1,10 @@
-// カテゴリー定義
-const INCOME_CATEGORIES = ['アドセンス', 'A8.net', 'もしもアフィリエイト', 'Amazonアソシエイト', 'その他収入'];
+// リクエストに応じたカテゴリー定義
+const INCOME_CATEGORIES = ['Googleアドセンス', 'アフィリエイト', 'Udemy', 'グッズ', 'その他'];
 const EXPENSE_CATEGORY = 'ブログ経費';
+const STORAGE_KEY = 'kamesan_blog_transactions_v2';
 
-// ローカルストレージキー
-const STORAGE_KEY = 'kamesan_blog_transactions';
-
-// データ構造の初期化
 let transactions = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
 
-// DOM要素
 const form = document.getElementById('transaction-form');
 const typeRadios = document.getElementsByName('type');
 const categorySelect = document.getElementById('category');
@@ -16,13 +12,12 @@ const amountInput = document.getElementById('amount');
 const memoInput = document.getElementById('memo');
 const historyList = document.getElementById('history-list');
 
-// 初期表示処理
 document.addEventListener('DOMContentLoaded', () => {
     updateCategoryOptions();
     render();
 });
 
-// 区分変更時にカテゴリーの選択肢を切り替える
+// 区分（収入/経費）切り替えイベント
 typeRadios.forEach(radio => {
     radio.addEventListener('change', (e) => {
         updateCategoryOptions(e.target.value);
@@ -46,7 +41,7 @@ function updateCategoryOptions(type = 'income') {
     }
 }
 
-// データ追加
+// データ送信処理
 form.addEventListener('submit', (e) => {
     e.preventDefault();
     const type = Array.from(typeRadios).find(r => r.checked).value;
@@ -67,23 +62,21 @@ form.addEventListener('submit', (e) => {
     memoInput.value = '';
 });
 
-// データ削除
+// 削除処理
 function deleteTransaction(id) {
-    if (confirm('この記録を削除しますか？')) {
+    if (confirm('この記録を削除してもよろしいですか？')) {
         transactions = transactions.filter(item => item.id !== id);
         saveAndRender();
     }
 }
 
-// 保存と描画
 function saveAndRender() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(transactions));
     render();
 }
 
-// 画面レンダリング（全体再計算）
+// 画面再描画・再計算
 function render() {
-    // 1. 各種合計計算
     let totalIncome = 0;
     let totalExpense = 0;
     const incomeByCategory = {};
@@ -103,12 +96,12 @@ function render() {
 
     const totalBalance = totalIncome - totalExpense;
 
-    // 2. UI更新 (サマリー)
+    // サマリー数値更新
     document.getElementById('total-balance').textContent = `¥${totalBalance.toLocaleString()}`;
     document.getElementById('total-income').textContent = `¥${totalIncome.toLocaleString()}`;
     document.getElementById('total-expense').textContent = `¥${totalExpense.toLocaleString()}`;
 
-    // 3. UI更新 (カテゴリー別収入)
+    // カテゴリー別収入更新
     const categorySummaryEl = document.getElementById('category-summary');
     categorySummaryEl.innerHTML = '';
     INCOME_CATEGORIES.forEach(cat => {
@@ -121,8 +114,13 @@ function render() {
         categorySummaryEl.appendChild(itemEl);
     });
 
-    // 4. UI更新 (履歴テーブル)
+    // 履歴テーブル更新
     historyList.innerHTML = '';
+    if (transactions.length === 0) {
+        historyList.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--text-muted); padding: 24px;">まだ記録がありません</td></tr>`;
+        return;
+    }
+
     transactions.forEach(item => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
@@ -131,7 +129,7 @@ function render() {
                 ${item.type === 'income' ? '収入' : '経費'}
             </td>
             <td>${item.category}</td>
-            <td>¥${item.amount.toLocaleString()}</td>
+            <td style="font-weight: 600;">¥${item.amount.toLocaleString()}</td>
             <td>${escapeHtml(item.memo)}</td>
             <td><button class="delete-btn" onclick="deleteTransaction(${item.id})">削除</button></td>
         `;
@@ -139,7 +137,6 @@ function render() {
     });
 }
 
-// XSS対策のエスケープ関数
 function escapeHtml(str) {
     if (!str) return '';
     return str.replace(/[&<>"']/g, (m) => ({
@@ -147,10 +144,10 @@ function escapeHtml(str) {
     })[m]);
 }
 
-// --- CSVバックアップ・復元機能 ---
+// CSVエクスポート
 document.getElementById('export-btn').addEventListener('click', () => {
     if (transactions.length === 0) {
-        alert('出力するデータがありません。');
+        alert('保存するデータがまだありません。');
         return;
     }
     let csvContent = 'data:text/csv;charset=utf-8,\uFEFFid,date,type,category,amount,memo\n';
@@ -160,12 +157,13 @@ document.getElementById('export-btn').addEventListener('click', () => {
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement('a');
     link.setAttribute('href', encodedUri);
-    link.setAttribute('download', `blog_balance_backup_${new Date().toISOString().slice(0,10)}.csv`);
+    link.setAttribute('download', `blog_balance_${new Date().toISOString().slice(0,10)}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
 });
 
+// CSVインポート
 document.getElementById('import-file').addEventListener('change', (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -190,10 +188,10 @@ document.getElementById('import-file').addEventListener('change', (e) => {
             if (confirm('現在のデータを上書きして復元しますか？')) {
                 transactions = newTransactions;
                 saveAndRender();
-                alert('復元が完了しました！');
+                alert('データを正常に復元しました。');
             }
         } catch (err) {
-            alert('CSVファイルの読み込みに失敗しました。形式を確認してください。');
+            alert('CSVファイルの読み込みに失敗しました。ファイル形式を確認してください。');
         }
     };
     reader.readAsText(file);
