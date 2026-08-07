@@ -3,23 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ブログ収支管理 | おしえてかめさん</title>
+    <title>ブログ収支 Dashboard | おしえてかめさん</title>
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
 
-    <!-- ホーム画面追加時＆ファビコン -->
+    <!-- ファビコン・アイコン -->
     <link rel="apple-touch-icon" href="./images/IMG_4711.png">
     <link rel="icon" type="image/png" href="./images/IMG_4711.png">
     
-    <!-- iOS モバイルアプリ風表示 -->
+    <!-- iOS WebApp設定 -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="収支管理">
 
-    <link rel="stylesheet" href="./css/style.css">
+    <!-- スマホ用キャッシュ破棄パラメータ (?v=4) -->
+    <link rel="stylesheet" href="./css/style.css?v=4">
 </head>
 <body>
     <header class="header">
@@ -82,7 +83,7 @@
                     <div class="form-group">
                         <label for="category" class="form-label">カテゴリー</label>
                         <select id="category" class="form-control" required>
-                            <!-- JSで制御 -->
+                            <!-- JSで初期化 -->
                         </select>
                     </div>
 
@@ -93,7 +94,7 @@
 
                     <div class="form-group">
                         <label for="memo" class="form-label">メモ（任意）</label>
-                        <input type="text" id="memo" class="form-control" placeholder="例: ○月確定分、ドメイン更新代など">
+                        <input type="text" id="memo" class="form-control" placeholder="例: ○月確定分、サーバー代など">
                     </div>
 
                     <button type="submit" class="btn btn-primary">記録を追加する</button>
@@ -141,6 +142,7 @@
         </section>
     </main>
 
-    <script src="./js/app.js"></script>
+    <!-- スマホ用キャッシュ破棄パラメータ (?v=4) -->
+    <script src="./js/app.js?v=4"></script>
 </body>
 </html>
