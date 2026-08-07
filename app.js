@@ -1,9 +1,6 @@
-// 新しいカテゴリー定義
 const INCOME_CATEGORIES = ['Googleアドセンス', 'アフィリエイト', 'Udemy', 'グッズ', 'その他'];
 const EXPENSE_CATEGORY = 'ブログ経費';
-
-// 最新版のLocalStorageキー（旧データとの混同を防ぐため名称変更）
-const STORAGE_KEY = 'kamesan_blog_transactions_v3';
+const STORAGE_KEY = 'kamesan_blog_transactions_v4';
 
 let transactions = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
 
@@ -15,11 +12,10 @@ const memoInput = document.getElementById('memo');
 const historyList = document.getElementById('history-list');
 
 document.addEventListener('DOMContentLoaded', () => {
-    updateCategoryOptions();
+    updateCategoryOptions('income');
     render();
 });
 
-// 区分（収入/経費）切り替えイベント
 typeRadios.forEach(radio => {
     radio.addEventListener('change', (e) => {
         updateCategoryOptions(e.target.value);
@@ -27,7 +23,10 @@ typeRadios.forEach(radio => {
 });
 
 function updateCategoryOptions(type = 'income') {
+    if (!categorySelect) return;
+    
     categorySelect.innerHTML = '';
+
     if (type === 'income') {
         INCOME_CATEGORIES.forEach(cat => {
             const opt = document.createElement('option');
@@ -43,7 +42,6 @@ function updateCategoryOptions(type = 'income') {
     }
 }
 
-// データ送信処理
 form.addEventListener('submit', (e) => {
     e.preventDefault();
     const type = Array.from(typeRadios).find(r => r.checked).value;
@@ -64,9 +62,8 @@ form.addEventListener('submit', (e) => {
     memoInput.value = '';
 });
 
-// 削除処理
 function deleteTransaction(id) {
-    if (confirm('この記録を削除してもよろしいですか？')) {
+    if (confirm('この記録を削除しますか？')) {
         transactions = transactions.filter(item => item.id !== id);
         saveAndRender();
     }
@@ -77,7 +74,6 @@ function saveAndRender() {
     render();
 }
 
-// 画面再描画・再計算
 function render() {
     let totalIncome = 0;
     let totalExpense = 0;
@@ -98,12 +94,10 @@ function render() {
 
     const totalBalance = totalIncome - totalExpense;
 
-    // サマリー数値更新
     document.getElementById('total-balance').textContent = `¥${totalBalance.toLocaleString()}`;
     document.getElementById('total-income').textContent = `¥${totalIncome.toLocaleString()}`;
     document.getElementById('total-expense').textContent = `¥${totalExpense.toLocaleString()}`;
 
-    // カテゴリー別収入更新
     const categorySummaryEl = document.getElementById('category-summary');
     categorySummaryEl.innerHTML = '';
     INCOME_CATEGORIES.forEach(cat => {
@@ -116,10 +110,9 @@ function render() {
         categorySummaryEl.appendChild(itemEl);
     });
 
-    // 履歴テーブル更新
     historyList.innerHTML = '';
     if (transactions.length === 0) {
-        historyList.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--text-muted); padding: 24px;">まだ記録がありません</td></tr>`;
+        historyList.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--text-muted); padding: 20px;">まだ記録がありません</td></tr>`;
         return;
     }
 
@@ -146,10 +139,9 @@ function escapeHtml(str) {
     })[m]);
 }
 
-// CSVエクスポート
 document.getElementById('export-btn').addEventListener('click', () => {
     if (transactions.length === 0) {
-        alert('保存するデータがまだありません。');
+        alert('保存するデータがありません。');
         return;
     }
     let csvContent = 'data:text/csv;charset=utf-8,\uFEFFid,date,type,category,amount,memo\n';
@@ -165,7 +157,6 @@ document.getElementById('export-btn').addEventListener('click', () => {
     document.body.removeChild(link);
 });
 
-// CSVインポート
 document.getElementById('import-file').addEventListener('change', (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -190,10 +181,10 @@ document.getElementById('import-file').addEventListener('change', (e) => {
             if (confirm('現在のデータを上書きして復元しますか？')) {
                 transactions = newTransactions;
                 saveAndRender();
-                alert('データを正常に復元しました。');
+                alert('復元が完了しました。');
             }
         } catch (err) {
-            alert('CSVファイルの読み込みに失敗しました。');
+            alert('CSVの読み込みに失敗しました。');
         }
     };
     reader.readAsText(file);
